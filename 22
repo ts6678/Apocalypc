@@ -1,0 +1,48 @@
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Screen settings
+WIDTH, HEIGHT = 600, 400
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Move the Square")
+
+# Colors
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+
+# Square properties
+square_size = 50
+x, y = WIDTH // 2, HEIGHT // 2
+speed = 5
+
+# Game loop
+running = True
+while running:
+    pygame.time.Clock().tick(60)  # 60 FPS
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        x -= speed
+    if keys[pygame.K_RIGHT]:
+        x += speed
+    if keys[pygame.K_UP]:
+        y -= speed
+    if keys[pygame.K_DOWN]:
+        y += speed
+
+    # Keep square inside window bounds
+    x = max(0, min(WIDTH - square_size, x))
+    y = max(0, min(HEIGHT - square_size, y))
+
+    screen.fill(WHITE)
+    pygame.draw.rect(screen, BLUE, (x, y, square_size, square_size))
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()
